@@ -2,6 +2,7 @@ import {RecipeModel} from './recipe.model';
 import {EventEmitter, Injectable} from '@angular/core';
 import {IngredientModel} from '../shared/ingredient.model';
 import {ShoppingListService} from '../shopping-list/shopping-list.service';
+import {ActivatedRoute} from '@angular/router';
 
 @Injectable()
 export class RecipeService {
@@ -29,7 +30,10 @@ export class RecipeService {
     )
   ];
 
-  constructor(private shoppingListService: ShoppingListService) {}
+  constructor(
+    private shoppingListService: ShoppingListService,
+    private route: ActivatedRoute
+  ) {}
 
   /**
    * Returns a new copy of the recipes array.
@@ -40,5 +44,9 @@ export class RecipeService {
 
   addIngredientsToShoppingList(ingredients: IngredientModel[]) {
     this.shoppingListService.addIngredients(ingredients);
+  }
+
+  getRecipe(id: number) {
+    return this.recipes[id];
   }
 }
