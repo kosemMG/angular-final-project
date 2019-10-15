@@ -1,12 +1,13 @@
 import {RecipeModel} from './recipe.model';
-import {EventEmitter, Injectable} from '@angular/core';
+import {Injectable} from '@angular/core';
 import {IngredientModel} from '../shared/ingredient.model';
 import {ShoppingListService} from '../shopping-list/shopping-list.service';
 import {ActivatedRoute} from '@angular/router';
+import {Subject} from 'rxjs';
 
 @Injectable()
 export class RecipeService {
-  recipeSelected = new EventEmitter<RecipeModel>();
+  recipesChanged = new Subject<RecipeModel[]>();
 
   private recipes: RecipeModel[] = [
     new RecipeModel(
@@ -33,7 +34,8 @@ export class RecipeService {
   constructor(
     private shoppingListService: ShoppingListService,
     private route: ActivatedRoute
-  ) {}
+  ) {
+  }
 
   /**
    * Returns a new copy of the recipes array.
@@ -48,5 +50,24 @@ export class RecipeService {
 
   getRecipe(id: number) {
     return this.recipes[id];
+  }
+
+  addRecipe(recipe: RecipeModel) {
+    this.recipes.push(recipe);
+    this.emitRecipes();
+  }
+
+  updateRecipe(index: number, newRecipe: RecipeModel) {
+    this.recipes[index] = newRecipe;
+    this.emitRecipes();
+  }
+
+  deleteRecipe(index: number) {
+    this.recipes.splice(index, 1);
+    this.emitRecipes();
+  }
+
+  emitRecipes() {
+    this.recipesChanged.next(this.recipes.slice());
   }
 }
