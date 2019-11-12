@@ -15,7 +15,7 @@ export class ShoppingListComponent implements OnInit, OnDestroy {
   constructor(private shoppingListService: ShoppingListService) {
   }
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.ingredients = this.shoppingListService.getIngredients();
     this.ingredientsChangedSubscription = this.shoppingListService.ingredientsChanged
       .subscribe(
@@ -23,13 +23,14 @@ export class ShoppingListComponent implements OnInit, OnDestroy {
           this.ingredients = ingredients;
         }
       );
+    // TODO write some logic to check if an item has been already added to the list and group it by name
   }
 
   ngOnDestroy(): void {
     this.ingredientsChangedSubscription.unsubscribe();
   }
 
-  onEditItem(index: number) {
+  onEditItem(index: number): void {
     this.shoppingListService.startedEditing.next(index);
   }
 }

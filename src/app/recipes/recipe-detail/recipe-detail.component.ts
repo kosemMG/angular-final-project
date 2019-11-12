@@ -1,7 +1,8 @@
 import {Component, OnInit} from '@angular/core';
+import {ActivatedRoute, Params, Router} from '@angular/router';
+
 import {RecipeModel} from '../recipe.model';
 import {RecipeService} from '../recipe.service';
-import {ActivatedRoute, Params, Router} from '@angular/router';
 
 @Component({
   selector: 'app-recipe-detail',
@@ -19,7 +20,7 @@ export class RecipeDetailComponent implements OnInit {
   ) { }
 
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.route.params
       .subscribe(
         (params: Params) => {
@@ -29,16 +30,20 @@ export class RecipeDetailComponent implements OnInit {
       );
   }
 
-  onAddToShoppingList() {
+  /**
+   * The method is called on click on "To shopping list" in the
+   * "Manage recipe" dropdown in recipe-detail.component.html
+   */
+  onAddToShoppingList(): void {
     this.recipeService.addIngredientsToShoppingList(this.recipe.ingredients);
   }
 
-  onEditRecipe() {
+  onEditRecipe(): void {
     // this.router.navigate(['../', this.recipeId, 'edit'], {relativeTo: this.route});
     this.router.navigate(['edit'], {relativeTo: this.route});
   }
 
-  onDeleteRecipe() {
+  onDeleteRecipe(): void {
     this.recipeService.deleteRecipe(this.recipeId);
     this.router.navigate(['/recipes']);
   }
