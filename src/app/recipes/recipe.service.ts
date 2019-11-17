@@ -1,15 +1,14 @@
-import {Injectable} from '@angular/core';
-import {Subject} from 'rxjs';
-import {ActivatedRoute} from '@angular/router';
+import { Injectable } from '@angular/core';
+import { Subject } from 'rxjs';
+import { ActivatedRoute } from '@angular/router';
 
-import {RecipeModel} from './recipe.model';
-import {IngredientModel} from '../shared/ingredient.model';
-import {ShoppingListService} from '../shopping-list/shopping-list.service';
+import { RecipeModel } from './recipe.model';
+import { IngredientModel } from '../shared/ingredient.model';
+import { ShoppingListService } from '../shopping-list/shopping-list.service';
 
 @Injectable()
 export class RecipeService {
   recipesChanged = new Subject<RecipeModel[]>();
-
   private recipes: RecipeModel[] = [
     new RecipeModel(
       'Hamburger',
@@ -70,6 +69,9 @@ export class RecipeService {
     this.emitRecipes();
   }
 
+  /**
+   * Just a shortcut to emit a list of recipes by a Subject Observable
+   */
   emitRecipes() {
     this.recipesChanged.next(this.recipes.slice());
   }

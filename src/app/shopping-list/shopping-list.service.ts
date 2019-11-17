@@ -17,10 +17,17 @@ export class ShoppingListService {
     return this.ingredients.slice();
   }
 
+  /**
+   * Returns an ingredient object {name: string, amount: number}
+   * @param index - number
+   */
   getIngredient(index: number): IngredientModel {
     return this.ingredients[index];
   }
 
+  /**
+   * Just a shortcut to emit a list of ingredients by a Subject Observable
+   */
   emitIngredients(): void {
     this.ingredientsChanged.next(this.ingredients.slice());
   }

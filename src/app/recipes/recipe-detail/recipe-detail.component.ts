@@ -13,12 +13,9 @@ export class RecipeDetailComponent implements OnInit {
   recipe: RecipeModel;
   recipeId: number;
 
-  constructor(
-    private recipeService: RecipeService,
-    private route: ActivatedRoute,
-    private router: Router
-  ) { }
-
+  constructor(private recipeService: RecipeService,
+              private route: ActivatedRoute,
+              private router: Router) {}
 
   ngOnInit(): void {
     this.route.params
@@ -38,6 +35,9 @@ export class RecipeDetailComponent implements OnInit {
     this.recipeService.addIngredientsToShoppingList(this.recipe.ingredients);
   }
 
+  /**
+   * Navigates to the recipe edit panel
+   */
   onEditRecipe(): void {
     // this.router.navigate(['../', this.recipeId, 'edit'], {relativeTo: this.route});
     this.router.navigate(['edit'], {relativeTo: this.route});
