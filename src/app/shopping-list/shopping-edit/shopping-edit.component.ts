@@ -1,8 +1,9 @@
 import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
-import {IngredientModel} from '../../shared/ingredient.model';
-import {ShoppingListService} from '../shopping-list.service';
 import {NgForm} from '@angular/forms';
 import {Subscription} from 'rxjs';
+
+import {IngredientModel} from '../../shared/ingredient.model';
+import {ShoppingListService} from '../shopping-list.service';
 
 @Component({
   selector: 'app-shopping-edit',
@@ -16,8 +17,7 @@ export class ShoppingEditComponent implements OnInit, OnDestroy {
   editedItemIndex: number;
   editedItem: IngredientModel;
 
-  constructor(private shoppingListService: ShoppingListService) {
-  }
+  constructor(private shoppingListService: ShoppingListService) {}
 
   ngOnInit(): void {
     this.subscription = this.shoppingListService.startedEditing
@@ -38,7 +38,11 @@ export class ShoppingEditComponent implements OnInit, OnDestroy {
     this.subscription.unsubscribe();
   }
 
-  onApply(form: NgForm) {
+  /**
+   * Calls updateIngredient() or addIngredient() method from the ShoppingListService depending on the editMode.
+   * @param form - Add/Update ingredient form.
+   */
+  onApply(form: NgForm): void {
     const formValue = form.value;
     const ingredient = new IngredientModel(formValue.name, formValue.amount);
     if (this.editMode) {
@@ -49,12 +53,19 @@ export class ShoppingEditComponent implements OnInit, OnDestroy {
     this.onClear();
   }
 
-  onClear() {
+  /**
+   * Clears the form.
+   */
+  onClear(): void {
     this.shoppingListForm.reset();
     this.editMode = false;
   }
 
-  onDelete() {
+  /**
+   * Removes an ingredient from the shopping list by calling the deleteIngredient() method
+   * from the ShoppingListService and passing the ingredient index to it.
+   */
+  onDelete(): void {
     this.shoppingListService.deleteIngredient(this.editedItemIndex);
     this.onClear();
   }

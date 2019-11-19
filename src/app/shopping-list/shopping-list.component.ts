@@ -1,7 +1,8 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Subscription} from 'rxjs';
+
 import {IngredientModel} from '../shared/ingredient.model';
 import {ShoppingListService} from './shopping-list.service';
-import {Subscription} from 'rxjs';
 
 @Component({
   selector: 'app-shopping-list',
@@ -12,8 +13,7 @@ export class ShoppingListComponent implements OnInit, OnDestroy {
   ingredients: IngredientModel[];
   private ingredientsChangedSubscription: Subscription;
 
-  constructor(private shoppingListService: ShoppingListService) {
-  }
+  constructor(private shoppingListService: ShoppingListService) {}
 
   ngOnInit(): void {
     this.ingredients = this.shoppingListService.getIngredients();
@@ -23,13 +23,17 @@ export class ShoppingListComponent implements OnInit, OnDestroy {
           this.ingredients = ingredients;
         }
       );
-    // TODO write some logic to check if an item has been already added to the list and group it by name
+    // TODO write some logic to check if an ingredient has been already added to the list and group it by name.
   }
 
   ngOnDestroy(): void {
     this.ingredientsChangedSubscription.unsubscribe();
   }
 
+  /**
+   * Emits an ingredient index through the ShoppingListService Subject observable.
+   * @param index of an ingredient - number.
+   */
   onEditItem(index: number): void {
     this.shoppingListService.startedEditing.next(index);
   }
