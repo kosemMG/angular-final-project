@@ -50,27 +50,44 @@ export class RecipeService {
     this.shoppingListService.addIngredients(ingredients);
   }
 
-  getRecipe(id: number) {
+  /**
+   * Returns a recipe object {name: string, desc: string, imagePath: string, ingredients: IngredientModel[]} by its id.
+   * @param id of a recipe - number.
+   */
+  getRecipe(id: number): RecipeModel {
     return this.recipes[id];
   }
 
-  addRecipe(recipe: RecipeModel) {
+  /**
+   * Adds a new recipe into the recipes list and emits the list through the Subject observable.
+   * @param recipe - object {name: string, desc: string, imagePath: string, ingredients: IngredientModel[]}
+   */
+  addRecipe(recipe: RecipeModel): void {
     this.recipes.push(recipe);
     this.emitRecipes();
   }
 
-  updateRecipe(index: number, newRecipe: RecipeModel) {
+  /**
+   * Updates the recipe by its index and emits the recipes list through the Subject observable.
+   * @param index of the recipe - number.
+   * @param newRecipe - object {name: string, desc: string, imagePath: string, ingredients: IngredientModel[]}
+   */
+  updateRecipe(index: number, newRecipe: RecipeModel): void {
     this.recipes[index] = newRecipe;
     this.emitRecipes();
   }
 
-  deleteRecipe(index: number) {
+  /**
+   * Removes a recipe from the list by its index.
+   * @param index of the recipe - number.
+   */
+  deleteRecipe(index: number): void {
     this.recipes.splice(index, 1);
     this.emitRecipes();
   }
 
   /**
-   * Just a shortcut to emit a list of recipes by a Subject Observable
+   * Just a shortcut to emit a list of recipes by a Subject Observable.
    */
   emitRecipes() {
     this.recipesChanged.next(this.recipes.slice());
