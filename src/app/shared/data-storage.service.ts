@@ -1,9 +1,10 @@
-import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { map, tap } from 'rxjs/operators';
+import {Injectable} from '@angular/core';
+import {HttpClient } from '@angular/common/http';
+import { map, tap} from 'rxjs/operators';
 
-import { RecipeService } from '../recipes/recipe.service';
-import { RecipeModel } from '../recipes/recipe.model';
+import {RecipeService} from '../recipes/recipe.service';
+import {RecipeModel} from '../recipes/recipe.model';
+import {AuthService} from '../auth/auth.service';
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +12,9 @@ import { RecipeModel } from '../recipes/recipe.model';
 export class DataStorageService {
   apiUrl = 'https://ng-recipe-book-576d9.firebaseio.com/recipes.json';
 
-  constructor(private http: HttpClient, private recipeService: RecipeService) {
+  constructor(private http: HttpClient,
+              private recipeService: RecipeService,
+              private authService: AuthService) {
   }
 
   /**
@@ -30,8 +33,7 @@ export class DataStorageService {
    */
   fetchRecipes() {
     return this.http.get<RecipeModel[]>(this.apiUrl)
-      .pipe(
-        map(recipes => {    // adds ingredients property as an empty array if absent in database
+      .pipe(map(recipes => {    // Adds ingredients property as an empty array if absent in database.
           return recipes.map(recipe => {
             return {
               ...recipe,
