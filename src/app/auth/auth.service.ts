@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { catchError, tap } from 'rxjs/operators';
 import { BehaviorSubject, Observable, throwError } from 'rxjs';
+import { environment} from '../../environments/environment';
 
 import { UserModel } from './user.model';
 import { Router } from '@angular/router';
@@ -19,8 +20,8 @@ export interface AuthResponseData {
   providedIn: 'root'
 })
 export class AuthService {
-  signUpApiUrl = 'https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyBfppsinUTn6wp-5jt13rRt0fYBoFaUXoA';
-  loginApiUrl = 'https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyBfppsinUTn6wp-5jt13rRt0fYBoFaUXoA';
+  signUpApiUrl = 'https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=' + environment.firebaseAPIKey;
+  loginApiUrl = 'https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=' + environment.firebaseAPIKey;
   user = new BehaviorSubject<UserModel>(null);
   private tokenExpirationTimer: any;
 
